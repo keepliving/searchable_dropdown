@@ -243,6 +243,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   final ValueNotifier<List<T>> _selectedItemsNotifier = ValueNotifier([]);
   final ValueNotifier<bool> _isFocused = ValueNotifier(false);
   final _popupStateKey = GlobalKey<SelectionWidgetState<T>>();
+  final _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -250,6 +251,12 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     _selectedItemsNotifier.value = isMultiSelectionMode
         ? List.from(widget.selectedItems)
         : _itemToList(widget.selectedItem);
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -286,6 +293,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         return IgnorePointer(
           ignoring: !widget.enabled,
           child: InkWell(
+            focusNode: _focusNode,
             onTap: () => _selectSearchMode(),
             child: _formField(),
           ),
@@ -316,7 +324,10 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
             Flexible(
               child: Text(
                 _selectedItemAsString(item),
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    ?.copyWith(fontSize: 12),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -357,7 +368,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         );
       }
       return Text(_selectedItemAsString(getSelectedItem),
-          style: Theme.of(context).textTheme.subtitle1);
+          style: Theme.of(context).textTheme.subtitle1?.copyWith(fontSize: 14));
     }
 
     return selectedItemWidget();
@@ -436,14 +447,13 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   ///manage dropdownSearch field decoration
   InputDecoration _manageDropdownDecoration(FormFieldState state) {
     return (widget.dropdownDecoratorProps.dropdownSearchDecoration ??
-            const InputDecoration(
-              contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-              border: OutlineInputBorder(),
-            ))
+            InputDecoration(
+                contentPadding: EdgeInsets.only(left: 8, bottom: 12),
+                constraints: BoxConstraints(maxHeight: 35)))
         .applyDefaults(Theme.of(state.context).inputDecorationTheme)
         .copyWith(
           enabled: widget.enabled,
-          suffixIcon: _manageSuffixIcons(),
+          // suffixIcon: _manageSuffixIcons(),    // 去掉右侧的按钮，感觉没啥乱用
           errorText: state.errorText,
         );
   }
@@ -704,6 +714,9 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     }
 
     _handleFocus(false);
+
+    // 选择后，获取焦点，这样才能继续往下一个widget
+    _focusNode.requestFocus();
   }
 
   ///compared two items base on user params

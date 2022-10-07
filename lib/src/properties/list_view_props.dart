@@ -28,7 +28,7 @@ class ListViewProps {
     this.physics,
     this.shrinkWrap = true,
     this.padding = const EdgeInsets.symmetric(vertical: 0),
-    this.itemExtent,
+    this.itemExtent = 35,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,

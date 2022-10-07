@@ -106,12 +106,22 @@ class PopupProps<T> {
     this.interceptCallBacks = false,
   });
 
+
   const PopupProps.menu({
     this.title,
     this.fit = FlexFit.tight,
     this.showSearchBox = false,
     this.menuProps = const MenuProps(),
-    this.searchFieldProps = const TextFieldProps(),
+    this.searchFieldProps = const TextFieldProps(
+        autofocus: true, decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(5),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+          ),
+        ),
+        constraints: BoxConstraints(maxHeight: 35))
+    ),
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),

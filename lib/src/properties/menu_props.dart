@@ -29,7 +29,7 @@ class MenuProps {
     this.barrierDismissible = true,
     this.animation,
     this.clipBehavior = Clip.none,
-    this.animationDuration = const Duration(milliseconds: 300),
+    this.animationDuration = const Duration(milliseconds: 10),
     this.borderOnForeground = false,
     this.borderRadius,
     this.shadowColor,
