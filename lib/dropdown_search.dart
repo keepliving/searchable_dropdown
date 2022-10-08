@@ -244,6 +244,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   final ValueNotifier<bool> _isFocused = ValueNotifier(false);
   final _popupStateKey = GlobalKey<SelectionWidgetState<T>>();
   final _focusNode = FocusNode();
+  final _iconButtonFocusNode = FocusNode(skipTraversal: true);   // 写死不给外面设置了
 
   @override
   void initState() {
@@ -256,6 +257,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _iconButtonFocusNode.dispose();
     super.dispose();
   }
 
@@ -448,12 +450,12 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   InputDecoration _manageDropdownDecoration(FormFieldState state) {
     return (widget.dropdownDecoratorProps.dropdownSearchDecoration ??
             InputDecoration(
-                contentPadding: EdgeInsets.only(left: 8, bottom: 12),
+                contentPadding: EdgeInsets.only(left: 8, top: 5),
                 constraints: BoxConstraints(maxHeight: 35)))
         .applyDefaults(Theme.of(state.context).inputDecorationTheme)
         .copyWith(
           enabled: widget.enabled,
-          // suffixIcon: _manageSuffixIcons(),    // 去掉右侧的按钮，感觉没啥乱用
+          suffixIcon: _manageSuffixIcons(),
           errorText: state.errorText,
         );
   }
@@ -517,7 +519,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
             autofocus: widget.dropdownButtonProps.autofocus,
             disabledColor: widget.dropdownButtonProps.disabledColor,
             enableFeedback: widget.dropdownButtonProps.enableFeedback,
-            focusNode: widget.dropdownButtonProps.focusNode,
+            focusNode: _iconButtonFocusNode,
             mouseCursor: widget.dropdownButtonProps.mouseCursor,
             tooltip: widget.dropdownButtonProps.tooltip,
             visualDensity: widget.dropdownButtonProps.visualDensity,

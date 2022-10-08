@@ -495,6 +495,10 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
                   shortcuts: const <ShortcutActivator, Intent>{
                     SingleActivator(LogicalKeyboardKey.space):
                         DoNothingAndStopPropagationTextIntent(),
+                    SingleActivator(LogicalKeyboardKey.arrowUp):
+                        PreviousFocusIntent(),
+                    SingleActivator(LogicalKeyboardKey.arrowDown):
+                        NextFocusIntent(),
                   },
                   child: TextField(
                     enableIMEPersonalizedLearning: widget.popupProps
