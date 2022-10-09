@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../dropdown_search.dart';
 
+class HardcodePopupProps {
+  static const searchFieldProps = TextFieldProps(
+      autofocus: true,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.all(5),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+            ),
+          ),
+          constraints: BoxConstraints(maxHeight: 35)));
+}
+
 class PopupProps<T> {
   ///popup title
   final Widget? title;
@@ -106,22 +119,12 @@ class PopupProps<T> {
     this.interceptCallBacks = false,
   });
 
-
   const PopupProps.menu({
     this.title,
     this.fit = FlexFit.tight,
     this.showSearchBox = false,
     this.menuProps = const MenuProps(),
-    this.searchFieldProps = const TextFieldProps(
-        autofocus: true, decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(5),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-          ),
-        ),
-        constraints: BoxConstraints(maxHeight: 35))
-    ),
+    this.searchFieldProps = HardcodePopupProps.searchFieldProps,
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
@@ -273,7 +276,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.title,
     super.fit = FlexFit.tight,
     super.showSearchBox = false,
-    super.searchFieldProps = const TextFieldProps(),
+    super.searchFieldProps = HardcodePopupProps.searchFieldProps,
     super.menuProps = const MenuProps(),
     super.favoriteItemProps = const FavoriteItemProps(),
     super.scrollbarProps = const ScrollbarProps(),

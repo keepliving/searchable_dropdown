@@ -26,6 +26,8 @@ class CheckBoxWidget extends StatefulWidget {
 
 class _CheckBoxWidgetState extends State<CheckBoxWidget> {
   final ValueNotifier<bool> isCheckedNotifier = ValueNotifier(false);
+  final _skipTraversalFocusNode1 = FocusNode(skipTraversal: true);
+  final _skipTraversalFocusNode2 = FocusNode(skipTraversal: true);
 
   @override
   void initState() {
@@ -38,6 +40,13 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     super.didUpdateWidget(oldWidget);
     if (widget.isChecked != oldWidget.isChecked)
       isCheckedNotifier.value = widget.isChecked;
+  }
+
+  @override
+  void dispose() {
+    _skipTraversalFocusNode1.dispose();
+    _skipTraversalFocusNode2.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,7 +63,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
             widget.checkBox != null
                 ? widget.checkBox!(context, v == true)
                 : Checkbox(
-                    value: v, onChanged: widget.isDisabled ? null : (b) {}),
+                    focusNode: _skipTraversalFocusNode2,
+                    value: v,
+                    onChanged: widget.isDisabled ? null : (b) {}),
           ],
         );
 
@@ -62,6 +73,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           return w;
         else
           return InkWell(
+            focusNode: _skipTraversalFocusNode1,
             onTap: widget.isDisabled
                 ? null
                 : () {

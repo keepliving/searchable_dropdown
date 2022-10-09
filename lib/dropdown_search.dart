@@ -244,7 +244,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   final ValueNotifier<bool> _isFocused = ValueNotifier(false);
   final _popupStateKey = GlobalKey<SelectionWidgetState<T>>();
   final _focusNode = FocusNode();
-  final _iconButtonFocusNode = FocusNode(skipTraversal: true);   // 写死不给外面设置了
+  final _iconButtonFocusNode = FocusNode(skipTraversal: true); // 写死不给外面设置了
 
   @override
   void initState() {
@@ -312,7 +312,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   Widget _defaultSelectedItemWidget() {
     Widget defaultItemMultiSelectionMode(T item) {
       return Container(
-        height: 32,
+        height: 22,
         padding: EdgeInsets.only(left: 8, right: 1),
         margin: EdgeInsets.symmetric(horizontal: 2, vertical: 1),
         decoration: BoxDecoration(
@@ -343,7 +343,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
               },
               child: Icon(
                 Icons.close_outlined,
-                size: 20,
+                size: 16,
               ),
             )
           ],
@@ -406,7 +406,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
                 isEmpty:
                     getSelectedItem == null && widget.dropdownBuilder == null,
                 isFocused: isFocused,
-                decoration: _manageDropdownDecoration(state),
+                decoration: _manageDropdownDecoration(state, false),
                 child: _defaultSelectedItemWidget(),
               );
             });
@@ -438,7 +438,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
                 isEmpty: getSelectedItems.isEmpty &&
                     widget.dropdownBuilderMultiSelection == null,
                 isFocused: isFocused,
-                decoration: _manageDropdownDecoration(state),
+                decoration: _manageDropdownDecoration(state, true),
                 child: _defaultSelectedItemWidget(),
               );
             });
@@ -447,10 +447,13 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   }
 
   ///manage dropdownSearch field decoration
-  InputDecoration _manageDropdownDecoration(FormFieldState state) {
+  InputDecoration _manageDropdownDecoration(
+      FormFieldState state, bool isMultiple) {
+    var paddingTop = 5.0;
+    if (isMultiple) paddingTop = 2;
     return (widget.dropdownDecoratorProps.dropdownSearchDecoration ??
             InputDecoration(
-                contentPadding: EdgeInsets.only(left: 8, top: 5),
+                contentPadding: EdgeInsets.only(left: 8, top: paddingTop),
                 constraints: BoxConstraints(maxHeight: 35)))
         .applyDefaults(Theme.of(state.context).inputDecorationTheme)
         .copyWith(
