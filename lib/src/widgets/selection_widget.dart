@@ -231,10 +231,10 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
     Widget defaultValidation = Padding(
       padding: EdgeInsets.all(8),
       child: Align(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.center,
         child: ElevatedButton(
           onPressed: onValidate,
-          child: Text("OK"),
+          child: Text("确定"),
         ),
       ),
     );
@@ -257,7 +257,7 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
           content: _errorWidget(error),
           actions: <Widget>[
             TextButton(
-              child: new Text("OK"),
+              child: new Text("确定"),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
